@@ -75,6 +75,9 @@ android {
     compileSdk rootProject.ext.compileSdkVersion
 
     namespace "com.realtimechat_django_channels"
+    buildFeatures {
+    buildConfig = true
+  }
     defaultConfig {
         applicationId "com.realtimechat_django_channels"
         minSdkVersion rootProject.ext.minSdkVersion

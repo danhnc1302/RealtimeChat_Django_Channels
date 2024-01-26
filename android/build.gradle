@@ -1,3 +1,67 @@
+// buildscript {
+//     ext {
+//         buildToolsVersion = "34.0.0"
+//         minSdkVersion = 21
+//         compileSdkVersion = 34
+//         targetSdkVersion = 34
+//         ndkVersion = "25.1.8937393"
+//         kotlinVersion = "1.3.72"  // Updated Kotlin version
+//     }
+//     repositories {
+//         google()
+//         mavenCentral()
+//         maven {
+//         url 'https://maven.pkg.jetbrains.space/public/p/compose/dev'
+//     }
+//     }
+//     dependencies {
+//         classpath("com.android.tools.build:gradle:7.0.0")  // Updated Android Gradle Plugin version
+//         classpath("com.facebook.react:react-native-gradle-plugin:0.65.1")  // Updated React Native Gradle Plugin version
+//         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+//         classpath("androidx.compose.ui:ui:1.0.0")
+//         classpath("androidx.compose.ui:ui-tooling:1.0.0")
+//         classpath("androidx.compose.compiler:compiler:1.0.0")
+//     }
+// }
+
+// allprojects {
+//     repositories {
+//         mavenCentral()
+//     }
+// }
+
+// task clean(type: Delete) {
+//     delete rootProject.buildDir
+// }
+
+// subprojects {
+//     afterEvaluate { project ->
+//         if (project.hasProperty("android")) {
+//             android {
+//                 compileSdkVersion = rootProject.ext.compileSdkVersion
+//                 defaultConfig {
+//                     applicationId "com.realtimechat_django_channels"  // Replace with your application ID
+//                     minSdkVersion rootProject.ext.minSdkVersion
+//                     targetSdkVersion rootProject.ext.targetSdkVersion
+//                 }
+
+//                 buildFeatures {
+//                     compose = true
+//                 }
+
+//                 composeOptions {
+//                     kotlinCompilerExtensionVersion = "1.4.0"  // Updated Kotlin compiler extension version
+//                 }
+
+//                 kotlinOptions {
+//                     jvmTarget = "17"  // Updated JVM target
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// apply plugin: "com.facebook.react.rootproject"
 buildscript {
     ext {
         buildToolsVersion = "34.0.0"
