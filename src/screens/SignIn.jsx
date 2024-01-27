@@ -11,6 +11,7 @@ import {
 import Title from '../common/Title'
 import Input from '../common/Input'
 import Button from '../common/Button'
+import api from '../core/api'
 
 const SignIn = ({ navigation }) => {
 
@@ -26,7 +27,52 @@ const SignIn = ({ navigation }) => {
     const [passwordError, setPasswordError] = useState()
 
     const onSignIn = () => {
+        // Check username
+        const failUsername = !username
+        if (failUsername) {
+            setUsernameError('Username not provided')
+        }
+        // Check password
+        const failPassword = !password
+        if (failPassword) {
+            setPasswordError('Password not provided')
+        }
+        // Break out of this function if there were any issues
+        if (failUsername || failPassword) {
+            return
+        }
 
+        api({
+            method: "POST",
+            url: "/chat/signin",
+            data: {
+                username: username,
+                password: password
+            }
+        }).then(res => {
+            utils.log('Sign In:', res.data)
+
+            const credentials = {
+                username: username,
+                password: password
+            }
+            login(
+                credentials,
+                response.data.user,
+                response.data.tokens
+            )
+        }).catch(error => {
+            if (error.response) {
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                console.log(error.request);
+            } else {
+                console.log('Error', error.message);
+            }
+            console.log(error.config);
+        })
     }
 
     return (

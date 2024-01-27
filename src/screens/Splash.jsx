@@ -6,6 +6,7 @@ import {
 	Text, 
 	View
 } from "react-native"
+import useGlobal from "../core/global"
 
 import Title from "../common/Title"
 
@@ -16,6 +17,8 @@ function SplashScreen({ navigation }) {
 			headerShown: false
 		})
 	}, [])
+
+	const init = useGlobal(state => state.init)
 
 	const translateY = new Animated.Value(0)
 	const duration = 800

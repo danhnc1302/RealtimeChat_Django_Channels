@@ -9,7 +9,8 @@ import {
 } from "react-native"
 import Input from "../common/Input"
 import Button from "../common/Button"
-
+import api
+ from "../core/api"
 function SignUpScreen({ navigation }) {
     const [username, setUsername] = useState('')
     const [firstName, setFirstName] = useState('')
@@ -30,7 +31,76 @@ function SignUpScreen({ navigation }) {
     }, [])
 
     function onSignUp() {
+        // Check username
+        const failUsername = !username || username.length < 5
+        if (failUsername) {
+            setUsernameError('Username must be >= 5 characters')
+        }
+        // Check firstName
+        const failFirstName = !firstName
+        if (failFirstName) {
+            setFirstNameError('First Name was not provided')
+        }
+        // Check last Name
+        const failLastName = !lastName
+        if (failLastName) {
+            setLastNameError('Last Name was not provided')
+        }
+        // Check password1
+        const failPassword1 = !password1 || password1 < 8
+        if (failPassword1) {
+            setPassword1Error('Password is too short')
+        }
+        // Check password2
+        const failPassword2 = password1 !== password2
+        if (failPassword2) {
+            setPassword2Error('Passwords don\'t match')
+        }
+        // Break out of the fucntion if there were any issues
+        if (failUsername ||
+            failFirstName ||
+            failLastName ||
+            failPassword1 ||
+            failPassword2) {
+            return
+        }
 
+        // Make signin request
+        api({
+            method: 'POST',
+            url: '/chat/signup/',
+            data: {
+                username: username,
+                first_name: firstName,
+                last_name: lastName,
+                password: password1
+            }
+        })
+            .then(response => {
+                utils.log('Sign Up:', response.data)
+
+                const credentials = {
+                    username: username,
+                    password: password1
+                }
+                login(
+                    credentials,
+                    response.data.user,
+                    response.data.tokens
+                )
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            })
     }
 
     return (
