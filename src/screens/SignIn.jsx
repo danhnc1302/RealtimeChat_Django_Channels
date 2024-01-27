@@ -12,6 +12,9 @@ import Title from '../common/Title'
 import Input from '../common/Input'
 import Button from '../common/Button'
 import api from '../core/api'
+import utils from '../core/utils'
+
+import useGlobal from '../core/global'
 
 const SignIn = ({ navigation }) => {
 
@@ -20,6 +23,8 @@ const SignIn = ({ navigation }) => {
             headerShown: false
         })
     }, [])
+
+    const login = useGlobal((state) => state.login)
 
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
@@ -44,7 +49,7 @@ const SignIn = ({ navigation }) => {
 
         api({
             method: "POST",
-            url: "/chat/signin",
+            url: "/chat/signin/",
             data: {
                 username: username,
                 password: password
@@ -58,14 +63,14 @@ const SignIn = ({ navigation }) => {
             }
             login(
                 credentials,
-                response.data.user,
-                response.data.tokens
+                res.data.user,
+                res.data.tokens
             )
         }).catch(error => {
-            if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
+            if (error.res) {
+                console.log(error.res.data);
+                console.log(error.res.status);
+                console.log(error.res.headers);
             } else if (error.request) {
                 console.log(error.request);
             } else {

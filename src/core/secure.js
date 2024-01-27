@@ -19,3 +19,5 @@ async function get(key) {
         console.log('secure.get:', error)
     }
 }
+
+export default { set, get }
