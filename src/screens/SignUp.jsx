@@ -9,8 +9,9 @@ import {
 } from "react-native"
 import Input from "../common/Input"
 import Button from "../common/Button"
-import api
- from "../core/api"
+import api from "../core/api"
+import utils from "../core/utils"
+import useGlobal from "../core/global"
 function SignUpScreen({ navigation }) {
     const [username, setUsername] = useState('')
     const [firstName, setFirstName] = useState('')
@@ -29,6 +30,8 @@ function SignUpScreen({ navigation }) {
             headerShown: false
         })
     }, [])
+
+    const login = useGlobal(state => state.login)
 
     function onSignUp() {
         // Check username
