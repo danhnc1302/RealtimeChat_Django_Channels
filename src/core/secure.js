@@ -20,4 +20,20 @@ async function get(key) {
     }
 }
 
-export default { set, get }
+async function remove(key) {
+    try {
+        await EncryptedStorage.removeItem(key)
+    } catch (error) {
+        console.log('secure.remove:', error)
+    }
+}
+
+async function wipe() {
+    try {
+        await EncryptedStorage.clear()
+    } catch (error) {
+        console.log('secure.wipe:', error)
+    }
+}
+
+export default { set, get, remove, wipe }
