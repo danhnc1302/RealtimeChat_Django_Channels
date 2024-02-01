@@ -18,8 +18,21 @@ const HomeScreen = ({navigation}) => {
 			headerShown: false
 		})
 	}, [])
+
   
   const user = useGlobal(state => state.user)
+  const socketConnect = useGlobal(state => state.socketConnect)
+  const socketClose = useGlobal(state => state.socketClose)
+
+
+  useEffect(() => {
+    socketConnect()
+    return () => {
+      // socketClose()
+    }
+    
+  },[])
+  
 
   function onSearch() {
 		navigation.navigate('Search')

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import secure from "./secure";
-import api from "./api";
+import api, { ADDRESS } from "./api";
+import utils from "./utils";
 
 
 //-------------------------------------
@@ -13,15 +14,15 @@ function responseFriendList(set, get, friendList) {
 	}))
 }
 
-const useGlobal = create((set,get) => ({
+const useGlobal = create((set, get) => ({
 
-    //---------------------
+	//---------------------
 	//   Initialization
 	//---------------------
-    initialized: false,
-    init: async () => {
+	initialized: false,
+	init: async () => {
 		const credentials = await secure.get('credentials')
-		if(credentials) {
+		if (credentials) {
 			try {
 				const response = await api({
 					method: "POST",
@@ -50,14 +51,14 @@ const useGlobal = create((set,get) => ({
 		set((state) => ({
 			initialized: true,
 		}))
-    },
+	},
 
 	//---------------------
 	//   Authentication
 	//---------------------
-    authenticated: false,
+	authenticated: false,
 	user: {},
-    login: (credentials, user, tokens) => {
+	login: (credentials, user, tokens) => {
 		secure.set('credentials', credentials)
 		secure.set('tokens', tokens)
 		set((state) => ({
@@ -75,6 +76,41 @@ const useGlobal = create((set,get) => ({
 	},
 
 	requestList: null,
+
+	//---------------------
+	//   Websocket
+	//---------------------
+
+	socket: null,
+
+	socketConnect: async () => {
+		const tokens = await secure.get('tokens')
+
+		const url = `ws://${ADDRESS}/chat/?token=${tokens.access}`
+
+		const socket = new WebSocket(url)
+		socket.onopen = () => {
+			utils.log('socket.onopen')
+		}
+		socket.onmessage = () => {
+			utils.log('socket.onmessage')
+		}
+		socket.onerror = (e) => {
+			utils.log('socket.onerror:', e)
+		}
+		socket.onclose = () => {
+			utils.log('socket.onclose')
+		}
+		set((state) => ({
+			socket: socket,
+		}));
+	},
+
+
+
+	socketClose: async () => {
+
+	}
 
 }))
 

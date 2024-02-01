@@ -8,16 +8,14 @@ from .serializers import UserSerializer, SignUpSerializer
 from .models import User
 
 def get_auth_for_user(user):
-    print(f'Type of user: {type(user)}')
-    tokens = RefreshToken.for_user(user)
-    print("tokens: ",tokens)
-    return {
-        'user': UserSerializer(user).data,
-        'tokens': {
+	tokens = RefreshToken.for_user(user)
+	return {
+		'user': UserSerializer(user).data,
+		'tokens': {
 			'access': str(tokens.access_token),
 			'refresh': str(tokens),
 		}
-    }
+	}
 
 class SignInView(APIView):
     permission_classes = [AllowAny]

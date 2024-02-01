@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(@_0++#vkzqj-c7n@9b_dybjx54h#ft1i7vui$ku7q^*6*@_!w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.68.109']
+ALLOWED_HOSTS = ['192.168.1.11']
 
 AUTH_USER_MODEL = 'chat.User'
 
@@ -44,7 +44,7 @@ CHANNEL_LAYERS = {
 	'default': {
 		'BACKEND': 'channels_redis.core.RedisChannelLayer',
 		'CONFIG': {
-			'hosts': [('192.168.68.109', 6379)]
+			'hosts': [('192.168.1.11', 6379)]
 		}
 	}
 }
